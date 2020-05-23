@@ -2,7 +2,8 @@ from telegram.ext import Updater, InlineQueryHandler, CommandHandler, MessageHan
 from telegram.ext.dispatcher import run_async
 import Bot_scraper.filmScraperScore as fc
 from myDictionary import dictionaryPelis, dictionaryGente
-
+import requests
+import re
 
 @run_async
 def peli(update, context):
@@ -14,19 +15,19 @@ def peli(update, context):
     titulo = titulo.strip()
     try:
         peli = fc.FilmScraperScore(titulo)
-        evalue_score(peli, titulo, update)
+        evalue_score(peli, titulo, update, context)
     except:
-        evalue_score(0.0, titulo, update)
+        evalue_score(0.0, titulo, update, context)
 
 # def echo(update, context):
 #     context.bot.send_message(chat_id=update.effective_chat.id, text=update.message.text)
 
 
-def evalue_score(pelicula, title, update):
+def evalue_score(pelicula, title, update, context):
 
     score = float(pelicula.findScore[0].text)
-
-    url = 'https://m.media-amazon.com/images/M/MV5BMjE2NDQxODMyM15BMl5BanBnXkFtZTcwOTQ2Nzg4OQ@@._V1_UX182_CR0,0,182,268_AL_.jpg'
+    chat_id = update.message.chat_id
+    url = pelicula.picture
     if title.lower() in dictionaryPelis:
         update.message.reply_text(dictionaryPelis[title.lower()])
     elif title.lower() in dictionaryGente:
@@ -44,7 +45,7 @@ def evalue_score(pelicula, title, update):
 
         if evaluation != None:
             update.message.reply_text(evaluation)
-            update.send_photo(photo=url)
+            context.bot.send_photo(chat_id=chat_id, photo=url)
         else:
             update.message.reply_text("Algo fue mal")
 
