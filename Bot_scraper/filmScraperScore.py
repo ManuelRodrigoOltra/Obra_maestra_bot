@@ -1,5 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
+from myDictionary import urlperretes
+from random import randrange
 import sys
 
 
@@ -26,21 +28,11 @@ class FilmScraperScore:
         return soup.find_all('span', itemprop='ratingValue')
 
     def getLinkImg(self, urlFilm):
+        url = urlperretes[str(randrange(3))]
         pageFilm = requests.get(urlFilm)
         soup = BeautifulSoup(pageFilm.content, 'html.parser')
         findImg = soup.find_all('div', class_='poster')
-        return findImg[0].a.img['src']
-
-
-
-
-        # # TODO exceptions in the dictionary
-        # # If the film is below 8 puta mierda
-        # if float(findScore[0].text) >= 8:
-        #     print('\n\n\t\t\t\t***************************')
-        #     print("\t\t\t\t\t\tObra maestra")
-        #     print('\t\t\t\t***************************\n\n')
-        # else:
-        #     print('\n\n\t\t\t\t***************************')
-        #     print("\t\t\t\t\t\tPuta mierda")
-        #     print('\t\t\t\t***************************\n\n')
+        if findImg:
+            return findImg[0].a.img['src']
+        else:
+            return url

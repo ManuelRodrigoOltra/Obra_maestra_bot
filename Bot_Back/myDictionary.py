@@ -8,3 +8,9 @@ dictionaryGente = {'manuel': 'Es una bellisima persona','manu': 'Es una bellisim
                    'juste': 'Ninot de llautò, gaviot!!', 'daniel': 'Si es Juste: ninot de llautò, gaviot!!',
                    'carles': 'HD', 'xevi':'Mejor padre del año', 'xona': '¿Quién es xona?','juan': 'Juaaaaaaannnn!',
                    'cuchara': 'Todo un señor', 'vicente': 'Quién llegase a su edad con su apariencia'}
+
+urlperretes = {'0': 'https://cdnb.20m.es/sites/76/2019/07/Por-qu%C3%A9-los-perros-quedan-atrapados-mientras-se-aparean.jpg',
+               '1': 'https://pbs.twimg.com/media/DmKi80OVsAACW8v.jpg',
+               '2': 'https://i.pinimg.com/originals/f5/2d/6f/f52d6f7873a77af81486ab4003a71fa7.png',
+               '3': 'https://www.blogdehumor.com/wp-content/2009/06/orgia_perruna.jpg',
+               }

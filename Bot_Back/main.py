@@ -17,35 +17,47 @@ def peli(update, context):
         peli = fc.FilmScraperScore(titulo)
         evalue_score(peli, titulo, update, context)
     except:
-        evalue_score(0.0, titulo, update, context)
+        evalue_score([], titulo, update, context)
 
 # def echo(update, context):
 #     context.bot.send_message(chat_id=update.effective_chat.id, text=update.message.text)
 
 
 def evalue_score(pelicula, title, update, context):
-
-    score = float(pelicula.findScore[0].text)
     chat_id = update.message.chat_id
-    url = pelicula.picture
+
+    #primero comprobamos las excepciones
+    #   La pelicula es especial y está en mi diccionario
+    #   El titulo es un nombre de persona y está en el diccionario
+    #   La web no ha devuelto ninguna pelúcula por que algo ha ido mal con el titulo
     if title.lower() in dictionaryPelis:
+        url = pelicula.picture
         update.message.reply_text(dictionaryPelis[title.lower()])
+        context.bot.send_photo(chat_id=chat_id, photo=url)
     elif title.lower() in dictionaryGente:
         update.message.reply_text(dictionaryGente[title.lower()])
-    elif score == 0.0:
-        update.message.reply_text('No sé de que me hablas, chaval')
+    elif not pelicula:
+        evaluation = "Algo fue mal, con el titulo"
     else:
-        try:
-            if score >= 8 :
-                evaluation = "Obra maestra ", + score
-            else:
-                evaluation = "Puta mierda ", + score
-        except:
-            evaluation = "Algo fue mal, con el titulo"
+        #Si no hay ningúna excepción evaluamos la película
+        #Obtenemos la puntuación y la imágen de la película
+        score = float(pelicula.findScore[0].text)
+        url = pelicula.picture
 
-        if evaluation != None:
+
+        if score >= 8 :
+            evaluation = "Obra maestra ", + score
+        else:
+            evaluation = "Puta mierda ", + score
+
+
+        if evaluation:
+            try:
+                url = pelicula.picture
+                context.bot.send_photo(chat_id=chat_id, photo=url)
+            except:
+                pass
             update.message.reply_text(evaluation)
-            context.bot.send_photo(chat_id=chat_id, photo=url)
         else:
             update.message.reply_text("Algo fue mal")
 
